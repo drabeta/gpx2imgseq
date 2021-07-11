@@ -1,0 +1,8 @@
+# vim: set ts=4:
+
+# ignore all files
+*
+# expect myselfe
+!.gitignore
+
+# EOF
