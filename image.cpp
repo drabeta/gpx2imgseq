@@ -2,7 +2,7 @@
 #include <cstring>
 #include <Magick++.h>
 
-#include "image.h"
+#include "image.hpp"
 
 
 Magick::Image speedGauge;

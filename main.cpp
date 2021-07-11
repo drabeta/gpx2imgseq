@@ -20,7 +20,7 @@
 #include <cstdlib> // EXIT_SUCCESS,...
 #include <cstring> // strstr
 
-#include "image.h"
+#include "image.hpp"
 
 #define BUF 256
 
