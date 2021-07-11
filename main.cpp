@@ -20,52 +20,39 @@
 #include <cstdlib> // EXIT_SUCCESS,...
 #include <cstring> // strstr
 
+#include "file.hpp"
 #include "parse.hpp"
 #include "image.hpp"
 
 #define BUF 256
 
-
 enum GPX_TOKEN { GPX_TRKPT, GPX_TIME, GPX_COURSE, GPX_SPEED, GPX_END, GPX_IGNORE };
-
 
 void pError( const char* msg );
 
-
-std::fstream file;
 char buffer[BUF];
-enum GPX_TOKEN state;
-
-
+File Gpx;
 
 
 int main( int argc, char* argv[] )
 {
 	init_image();
-
-	file.open( "input.gpx", std::fstream::in );
-	if( !file.is_open() )
-		pError( "Can not open GPX-File!" );
-
-	// skip first 5 lines / ignore them
-	file.getline( buffer, BUF );
-	file.getline( buffer, BUF );
-	file.getline( buffer, BUF );
-	file.getline( buffer, BUF );
-	file.getline( buffer, BUF );
-	state=GPX_TRKPT;
-
+	
+	if( !Gpx.open( "input.gpx" ) )
+		pError( "Can not open GPX file" );
+	
+	GPX_TOKEN state = GPX_IGNORE; // ignore lines until we hit a known one
 	char la[32] = { '0' };
 	char lo[32] = { '0' };
 	char ti[32] = { '0' };
 	char cu[32] = { '0' };
 	char sp[32] = { '0' };
 	unsigned int nr = 0; // image counter
+
 	// now read relevant
-	while( file.getline( buffer, BUF, '\r' ) )
+	while( Gpx.getLine( buffer, BUF ) )
 	{
 		//std::cout << buffer << std::endl;
-		file.ignore( 1 , '\n' );
 		
 		// skip preceding spaces
 		unsigned int x = 0;
@@ -114,9 +101,8 @@ int main( int argc, char* argv[] )
 				continue;
 				break;
 		} // switch( state )
-	} // while( file.getline() )
+	} // while( getline )
 
-	file.close();
 	return EXIT_SUCCESS;
 }
 
@@ -126,7 +112,6 @@ int main( int argc, char* argv[] )
 void pError( const char* msg )
 {
 	std::cerr << "STOP: " << msg << std::endl;
-	file.close();
 	exit( EXIT_FAILURE );
 }
 
