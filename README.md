@@ -10,11 +10,13 @@ Speed
 - Background
 - Arrow
 - Gauge
+<img src="/images/speed.png?raw=true" width="128">
 
 Course
 - Background
 - Gauge
 - Arrow
+<img src="/images/course.png?raw=true" width="128">
 
 
 ## TODO
