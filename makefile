@@ -5,7 +5,7 @@ CXXFLAGS=-I./ $(shell pkg-config --cflags --libs Magick++)
 
 
 # our programm
-gpx2imgseq: main.cpp file.o parse.o image.o
+gpx2imgseq: main.cpp file.o parse.o image.o option.o
 	$(CXX) $(CXXFLAGS) -o $@ $?
 
 %.o: %.cpp %.hpp

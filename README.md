@@ -2,7 +2,7 @@
 
 **Under developement**
 
-Currently it reads "input.gpx" and creates image sequences for `speed` and `course`.
+Reads the input-File from command line and creates image sequences for `speed` and `course`.
 Each image is build of three "layer": Background, Gauge and Arrow but in different order.
 The Arrow-Image is rotated depending of `speed` or `course` from the GPX-File.
 

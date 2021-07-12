@@ -19,27 +19,48 @@
 #include <string>
 #include <cstdlib> // EXIT_SUCCESS,...
 #include <cstring> // strstr
+#include <cstdio>
+#include <getopt.h>
 
 #include "file.hpp"
 #include "parse.hpp"
 #include "image.hpp"
+#include "option.hpp"
 
 #define BUF 256
 
+
 enum GPX_TOKEN { GPX_TRKPT, GPX_TIME, GPX_COURSE, GPX_SPEED, GPX_END, GPX_IGNORE };
+
 
 void pError( const char* msg );
 
+
 char buffer[BUF];
 File Gpx;
+Option ops;
+
+
 
 
 int main( int argc, char* argv[] )
 {
+	if( !ops.load( argc, argv) )
+		pError( "not properly configured" );
+	
+	if( optind+1 != argc )
+		pError( "missing filename" );
+	//std::cout << "inputfile: " << argv[optind] << std::endl;
+	
+	if( !Gpx.open( argv[optind] ) )
+		pError( "Can not open GPX file" );
+	pError( "DEBUG");
+	
 	init_image();
 	
-	if( !Gpx.open( "input.gpx" ) )
-		pError( "Can not open GPX file" );
+	
+	// Main programm
+	
 	
 	GPX_TOKEN state = GPX_IGNORE; // ignore lines until we hit a known one
 	char la[32] = { '0' };
