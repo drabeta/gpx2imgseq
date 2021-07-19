@@ -2,33 +2,27 @@
 // http://www.mario-konrad.ch/blog/programming/getopt.html
 #include <iostream>
 #include <cstdlib>
+#include <cstring>
 
 #include "option.hpp"
 
 
 
 
-Option::Option() {}
-Option::~Option(){}
+Option::~Option()
+{}
 
 
 
 
-bool Option::setShort( char shortOpt[] )
+Option::Option()
 {
-	//short_options = shortOpt;
-	//return true;
-	return NULL;
-}
-
-
-
-
-bool Option::setLong( struct option longOpt[] )
-{
-	//long_options = longOpt;
-	//return true;
-	return NULL;
+	// iterates through `enum opts` and adds empty values into map arguments
+	// opts are defined for use als bit-setter 0x1 0x2 0x4 0x8. bitshift by one
+	// OPT_ARGSEND defines the end of options WITH arguments, OPT_OPTEND the end
+	// of the enum opts
+	for( int i=1; i<OPT_ARGSEND; i<<=1 )
+		arguments.emplace( i, "" );
 }
 
 
@@ -44,60 +38,50 @@ bool Option::load( int argc, char* argv[] )
 		but with this switch here, that makes no sense...
 		for the first, let it here.
 	*/
-	char short_options[] = ":sctg"; // preceeding : means we handle errors
-	static const struct option long_options[] =
+	char short_optionsss[] = ":a"; // preceeding : means we handle errors
+	                               // "W" is reserved by POSIX.2
+	static const struct option long_optionsss[] =
 	{
-		{ "speed" , no_argument, 0, 's' },
-		{ "course", no_argument, 0, 'c' },
-		{ "time"  , no_argument, 0, 't' },
-		{ "coords", no_argument, 0, 'g' },
-		0
+		// all options need an enum opts
+		{ "speed" ,      required_argument, nullptr, OPT_SPEED      },
+		{ "speed_text" , required_argument, nullptr, OPT_SPEEDTEXT  },
+		{ "course",      required_argument, nullptr, OPT_COURSE     },
+		{ "course_text", required_argument, nullptr, OPT_COURSETEXT },
+		{ "time"  ,      no_argument,       nullptr, OPT_TIME       },
+		{ "coords",      no_argument,       nullptr, OPT_COORDS     },
+		NULL
 	};
 
 	int index = -1;
-	int result;
-	while( -1!=(result = getopt_long( argc, argv,
-		                              short_options,
-		                              long_options, &index ) ) )
+	int current_option;
+	while( -1!=(current_option = getopt_long( argc, argv,
+		                                      short_optionsss,
+		                                      long_optionsss, &index ) ) )
 	{
-		struct option * opt = nullptr;
-		switch( result )
+		switch( current_option )
 		{
 			case '?': /* unknown parameter */
-				opt = (struct option *)&(long_options[index]);
 				std::cerr << "unknown parameter: " << argv[optind-1] << std::endl;
 				bits |= OPT_ERROR;
 				break;
 			case ':': /* missing argument of a parameter */
-				std::cerr << "missing argument" << std::endl;
+				std::cerr << "missing argument for: " << argv[optind-1] << std::endl;
 				bits |= OPT_ERROR;
 				break;
-			case 's': /* same as index==0 */
-				//std::cout << "'s'/'speed' was specified." << std::endl;
-				bits |= OPT_SPEED;
+			default: // case for argumented options
+				bits |= current_option;
+				arguments[current_option] = optarg; // or better strcpy !?
 				break;
-			case 'c': /* same as index==0 */
-				//std::cout << "'c'/'course' was specified." << std::endl;
-				bits |= OPT_COURSE;
-				break;
-			case 't': /* same as index==0 */
-				//std::cout << "'t'/'time' was specified." << std::endl;
-				bits |= OPT_TIME;
-				break;
-			case 'g': /* same as index==0 */
-				//std::cout << "'g'/'coord' was specified." << std::endl;
-				bits |= OPT_COORDS;
-				break;
-			case 0: /* all parameter that do not */
-			        /* appear in the optstring */
-				opt = (struct option *)&(long_options[index]);
+/* * /
+			struct option * opt = nullptr;
+			case 'x': // case for non-argumented options
+				opt = (struct option *)&(long_optionsss[index]);
 				printf( "'%s' was specified.", opt->name );
 				if( opt->has_arg==required_argument )
 					printf( "Arg: <%s>", optarg );
 				printf( "\n" );
 				break;
-			default: /* unknown */
-				break;
+/* */
 		} // switch( result )
 	} // while( ... getopt_long() ... )
 	
@@ -120,11 +104,17 @@ int Option::get()
 
 bool Option::isSet( opts option )
 {
-	std::cout << "b" << bits << std::endl;
-	std::cout << "o"<<option << std::endl;
 	if( bits & option )
 		return true;
 	return false;
+}
+
+
+
+
+const char* Option::getArg( opts option )
+{
+	return arguments.find(option)->second;
 }
 
 
