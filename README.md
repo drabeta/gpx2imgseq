@@ -17,7 +17,7 @@ The Arrow-Image is rotated depending of `speed` or `course` from the GPX-File.
     <td rowspan="3"><img src="/misc/speed.png?raw=true" width="128"></td>
     <td>Background</td>
     <td rowspan="3"><img src="/misc/course.png?raw=true" width="128"></td>
-    <td rowspan="3"><img src="/misc/example.gif?raw=true" width="128"></td>
+    <td rowspan="3"><img src="/misc/example.gif?raw=true" width="256"></td>
   </tr>
   <tr>
     <td>Arrow</td>
