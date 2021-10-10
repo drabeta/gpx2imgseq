@@ -1,4 +1,7 @@
+!.gitignore
 gpx2imgseq
 im
+im.cpp
 op
+op.cpp
 *.o

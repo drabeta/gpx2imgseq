@@ -8,27 +8,23 @@ The Arrow-Image is rotated depending of `speed` or `course` from the GPX-File.
 
 <table>
   <tr>
-    <th colspan="3">Speed</th>
-    <th colspan="3">Course</th>
+    <th colspan="2">Speed</th>
+    <th colspan="2">Course</th>
+    <th colspan="2">Example</th>
   </tr>
   <tr>
-    <td>1</td>
     <td>Background</td>
-    <td rowspan="3"><img src="/images/speed.png?raw=true" width="128"></td>
-    <td>4</td>
+    <td rowspan="3"><img src="/misc/speed.png?raw=true" width="128"></td>
     <td>Background</td>
-    <td rowspan="3"><img src="/images/course.png?raw=true" width="128"></td>
+    <td rowspan="3"><img src="/misc/course.png?raw=true" width="128"></td>
+    <td rowspan="3"><img src="/misc/example.gif?raw=true" width="128"></td>
   </tr>
   <tr>
-    <td>1</td>
     <td>Arrow</td>
-    <td>4</td>
     <td>Gauge</td>
   </tr>
   <tr>
-    <td>1</td>
     <td>Gauge</td>
-    <td>4</td>
     <td>Arrow</td>
   </tr>
 </table>
