@@ -75,6 +75,9 @@ int main( int argc, char* argv[] )
 	{
 		// split option argument into vector ( delimeter=,)
 		speedOps = splitArg( ops.getArg( OPT_SPEED ) );
+		// check argument count / vector.size()
+		if( 3!=speedOps->size() )
+			pError( "wrong argument count for option: --speed" );
 		// copy leyerDef or defaultLayer into variable
 		if( 0 == strcmp( "d", speedOps->at(0) ) )
 			strcpy( speedLayer, defaultLayer );
@@ -88,6 +91,8 @@ int main( int argc, char* argv[] )
 		if( ops.isSet( OPT_SPEEDTEXT ) )
 		{
 			speedTextOps = splitArg( ops.getArg( OPT_SPEEDTEXT ) );
+			if( 4!=speedTextOps->size() )
+				pError( "wrong argument count for option: --speed_text" );
 			strcpy( speedText, speedTextOps->at(0) );
 			sscanf( speedTextOps->at(1), "%i", &speedTextSize );
 			sscanf( speedTextOps->at(2), "%i", &speedTextX );
@@ -106,6 +111,8 @@ int main( int argc, char* argv[] )
 	if( ops.isSet( OPT_COURSE ) )
 	{
 		courseOps = splitArg( ops.getArg( OPT_COURSE ) );
+		if( 3!=courseOps->size() )
+			pError( "wrong argument count for option: --course" );
 		if( 0 == strcmp( "d", courseOps->at(0) ) )
 			strcpy( courseLayer, defaultLayer );
 		else
@@ -117,6 +124,8 @@ int main( int argc, char* argv[] )
 		if( ops.isSet( OPT_COURSETEXT ) )
 		{
 			courseTextOps = splitArg( ops.getArg( OPT_COURSETEXT ) );
+			if( 4!=courseTextOps->size() )
+				pError( "wrong argument count for option: --course" );
 			strcpy( courseText, courseTextOps->at(0) );
 			sscanf( courseTextOps->at(1), "%i", &courseTextSize );
 			sscanf( courseTextOps->at(2), "%i", &courseTextX );
