@@ -1,0 +1,68 @@
+#Creating and working with git/github
+https://www.youtube.com/watch?v=HVsySz-h9r4
+#Fixing common misstakes and undo bad commits
+https://www.youtube.com/watch?v=FdZecVxzJbk
+
+
+# !! NEVER CHANGE THE GIT-HISTORY !!
+
+
+# normal workflow
+- edit your files, add some, delete some.
+- git status                                  # view modifications
+- git add -A     or     git add <file>        # add files to staging-area
+- - git reset <file>                          #   remove file from staging-area
+- git commit -m "description of changes"      # creates an commitment
+-                                             #   revert commit
+- git pull                                    # ALLWAYS: get changes from server other have made
+- git push                                    # pushes commit to current branch 
+
+
+# undo mistakes
+- git status                                  # view to be sure
+- - git checkout <badfile>                    #   get the goodfile from server again   or
+- - git checkout <branch>                     #   get the hole branche from server
+
+
+# correcting commit message (not pushed)
+- git commit -m "wrong message"               # create commit with wrong message
+- git commit --amend -m "new message"         # change the message of last commit before push
+
+
+# adding file to commit (not pushed)
+- git commit --amend                          # interactive editor starte (vim) just(?) :wq
+
+
+# remove file from git
+- git rm <file>                               # delete file from filesystem and git-repo
+- git rm --cached <file>                      # delete file from git-repo only
+
+
+# rename/move file
+- git mv <file> <new-name>                    # renames file to new-name
+- git mv <file> <path/file>                   # moves file into path-folder
+
+
+# creating a new branch
+- git pull                                    # update current (not branch on outdated files)
+- git branch new-branchname                   # just creates the branch
+- git push -u origin new-branchname           # pushes branch to server
+
+
+# working in branch
+- git checkout new-branchname                 # ! switch to branch to work in
+- edit files, add,commit
+- git push
+
+
+# merge a branch to an other
+- git checkout main-branch                    # switch to main-branch(target)
+- git pull                                    # get letest from server
+- git merge new-branchname                    # merge new into main
+                    # commit needed ??
+- git push                                    # transfer new main to server
+- git branch -d new-branchname                # delete from local
+- git push origin -d new-branchname           # delete from server
+
+
+#EOF
