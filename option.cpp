@@ -47,6 +47,8 @@ bool Option::load( int argc, char* argv[] )
 		{ "speed_text" , required_argument, nullptr, OPT_SPEEDTEXT  },
 		{ "course",      required_argument, nullptr, OPT_COURSE     },
 		{ "course_text", required_argument, nullptr, OPT_COURSETEXT },
+		{ "font",        required_argument, nullptr, OPT_FONT       },
+		{ "font_color",  required_argument, nullptr, OPT_FONTCOLOR  },
 		{ "time"  ,      no_argument,       nullptr, OPT_TIME       },
 		{ "coords",      no_argument,       nullptr, OPT_COORDS     },
 		NULL

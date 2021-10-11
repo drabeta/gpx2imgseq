@@ -16,7 +16,10 @@ GpxImage::~GpxImage()
 
 
 GpxImage::GpxImage()
-{}
+{
+	strcpy( mFont,      "@/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" );
+	strcpy( mFontColor, "#000000" );
+}
 
 
 
@@ -153,7 +156,7 @@ bool GpxImage::layer( char layerDef[] )
 
 
 
-bool GpxImage::setFontTTF( char fontFile[] )
+bool GpxImage::setFontTTF( const char fontFile[] )
 {
 	struct stat fb;
 	if( stat( fontFile, &fb ) != 0 )
@@ -168,7 +171,17 @@ bool GpxImage::setFontTTF( char fontFile[] )
 
 
 
-void GpxImage::text( char text[], int fontSize, int x, int y, char color[] )
+bool GpxImage::setFontColor( const char fontColor[] )
+{
+	strcpy( mFontColor, fontColor );
+	
+	return true;
+}
+
+
+
+
+void GpxImage::text( char text[], int fontSize, int x, int y, const char color[] )
 {
 	if( text == NULL )
 		sprintf( mText, "%.1f", mValueConv );
@@ -180,7 +193,7 @@ void GpxImage::text( char text[], int fontSize, int x, int y, char color[] )
 	
 	mI.font( mFont );
 	mI.fontPointsize( mTextSize );
-	mI.fillColor( color );
+	mI.fillColor( (color!=NULL) ?color :mFontColor );
 	mI.annotate( mText, Magick::Geometry( 1, 1, mTextX, mTextY ), Magick::CenterGravity );
 }
 

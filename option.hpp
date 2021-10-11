@@ -26,6 +26,8 @@ enum opts
 	OPT_COURSETEXT = OPT_COURSE     <<1,
 	OPT_TIME       = OPT_COURSETEXT <<1,
 	OPT_COORDS     = OPT_TIME       <<1,
+	OPT_FONT       = OPT_COORDS     <<1,
+	OPT_FONTCOLOR  = OPT_FONT       <<1,
 	
 	OPT_ARGSEND    = OPT_COORDS     <<1,
 	                 // define options WITH arguments ABOVE this, others below

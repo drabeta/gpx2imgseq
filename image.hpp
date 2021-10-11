@@ -39,7 +39,8 @@ class GpxImage
 	int mTextSize = 20;
 	int mTextX = 128;
 	int mTextY = 128;
-	char mFont[32] = "";
+	char mFont[128] = "";
+	char mFontColor[32] = "";
 	char mCropDef[32] = "";
 	
 	public:
@@ -53,8 +54,9 @@ class GpxImage
 	void setKnt();
 	void setRaw();
 	bool layer( char layerDef[] );
-	void text( char text[], int fontSize, int x, int y, char color[]="#000000" );
-	bool setFontTTF( char font[] );
+	void text( char text[], int fontSize, int x, int y, const char color[]=NULL );
+	bool setFontTTF( const char font[] );
+	bool setFontColor( const char color[] );
 	void crop( char cropDef[] );
 	bool save( char filename[] );
 	

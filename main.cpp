@@ -136,7 +136,8 @@ int main( int argc, char* argv[] )
 	//init_image();
 	Gi.init( ops.isSet( OPT_SPEED )
 	        ,ops.isSet( OPT_COURSE ) );
-	Gi.setFontTTF( "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" );
+	if( ops.isSet( OPT_FONT ) && !Gi.setFontTTF( ops.getArg( OPT_FONT ) ) )
+		pError( "fontfile not found or readable" );
 	
 	
 	// Main programm
@@ -213,7 +214,8 @@ int main( int argc, char* argv[] )
 				Gi.layer( speedLayer );
 				if( ops.isSet( OPT_SPEEDTEXT ) )
 					Gi.text( (0==strcmp(speedText,"d") ?NULL :speedText),
-					         speedTextSize, speedTextX, speedTextY );
+					         speedTextSize, speedTextX, speedTextY,
+					         (ops.isSet( OPT_FONTCOLOR )) ?ops.getArg( OPT_FONTCOLOR ) :NULL );
 				Gi.save( imgName );
 				break;
 				
