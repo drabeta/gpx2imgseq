@@ -29,7 +29,7 @@ enum opts
 	OPT_FONT       = OPT_COORDS     <<1,
 	OPT_FONTCOLOR  = OPT_FONT       <<1,
 	
-	OPT_ARGSEND    = OPT_COORDS     <<1,
+	OPT_ARGSEND    = OPT_FONTCOLOR  <<1,
 	                 // define options WITH arguments ABOVE this, others below
 	                 // ARGSEND is used to iterate over bits to generate a unordered_map
 	                 // which contains any arguments given to the option
