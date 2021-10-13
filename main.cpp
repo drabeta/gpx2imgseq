@@ -134,8 +134,23 @@ int main( int argc, char* argv[] )
 	}
 	
 	//init_image();
-	Gi.init( ops.isSet( OPT_SPEED )
-	        ,ops.isSet( OPT_COURSE ) );
+	//Gi.init( ops.isSet( OPT_SPEED )
+	//        ,ops.isSet( OPT_COURSE ) );
+	GI_ERR ierr = Gi.init( ops.isSet( OPT_SPEED )
+	                      ,ops.isSet( OPT_COURSE ) );
+	if( ierr != GI_ERR_SUCCESS )
+	{
+		std::cerr << "output folder './output/";
+		switch( ierr )
+		{
+			case GI_ERR_OUTPUT:    std::cerr << "";       break;
+			case GI_ERR_OUTSPEED:  std::cerr << "speed";  break;
+			case GI_ERR_OUTCOURSE: std::cerr << "course"; break;
+		}
+		std::cerr << "' does not exist." << std::endl;
+		
+		return EXIT_FAILURE;
+	}
 	if( ops.isSet( OPT_FONT ) && !Gi.setFontTTF( ops.getArg( OPT_FONT ) ) )
 		pError( "fontfile not found or readable" );
 	

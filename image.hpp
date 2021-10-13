@@ -5,9 +5,18 @@
 #include <Magick++.h>
 
 
-// DEPRECATED / backup
-//void init_image();
-//void gen_image( unsigned int nr, float speed, float course );
+enum GI_ERR
+{
+	GI_ERR_SUCCESS   = 1,
+	GI_ERR_ERROR     = GI_ERR_SUCCESS   <<1,
+	GI_ERR_OUTPUT    = GI_ERR_ERROR     <<1,
+	GI_ERR_OUTSPEED  = GI_ERR_OUTPUT    <<1,
+	GI_ERR_OUTCOURSE = GI_ERR_OUTSPEED  <<1,
+	GI_ERR_LAYER     = GI_ERR_OUTCOURSE <<1,
+	GI_ERR_FONT      = GI_ERR_LAYER     <<1
+};
+
+
 
 
 class GpxImage
@@ -46,19 +55,19 @@ class GpxImage
 	public:
 	GpxImage();
 	~GpxImage();
-	bool init( bool speed, bool course );
+	GI_ERR init( bool speed, bool course );
 	void src( Magick::Image& refBackg, Magick::Image& refGauge, Magick::Image& refArrow );
 	void value( char* value, float max, float scaleSize );
 	void setKmh();
 	void setMph();
 	void setKnt();
 	void setRaw();
-	bool layer( char layerDef[] );
+	GI_ERR layer( char layerDef[] );
 	void text( char text[], int fontSize, int x, int y, const char color[]=NULL );
-	bool setFontTTF( const char font[] );
-	bool setFontColor( const char color[] );
+	GI_ERR setFontTTF( const char font[] );
+	GI_ERR setFontColor( const char color[] );
 	void crop( char cropDef[] );
-	bool save( char filename[] );
+	GI_ERR save( char filename[] );
 	
 	void speedImage();
 	void courseImage();

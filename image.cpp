@@ -24,14 +24,27 @@ GpxImage::GpxImage()
 
 
 
-bool GpxImage::init( bool speed, bool course )
+GI_ERR GpxImage::init( bool speed, bool course )
 {
 	Magick::InitializeMagick( nullptr );
 	mTransp = Magick::Color( 0x0, 0x0, 0x0, 0xFFFF );
-	// FIXME check if ./output/-folder exists -> create
+	
+	// Check output folder
+	struct stat statFb;
+	if( -1 == stat( "./output", &statFb ) )
+	{
+		if( -1 == mkdir( "./output", 0640 ) )
+			return GI_ERR_OUTPUT;
+	}
+	
 	if( speed )
 	{
-		// FIXME check if ./output/speed-folder exists -> create
+		// Check output subfolder
+		if( -1 == stat( "./output/speed", &statFb ) )
+		{
+			if( -1 == mkdir( "./output/speed", 0640 ) )
+				return GI_ERR_OUTSPEED;
+		}
 		
 		mSpeedBackg.backgroundColor( mTransp );
 		mSpeedBackg.read( "images/speed_backg.svg" );
@@ -47,6 +60,11 @@ bool GpxImage::init( bool speed, bool course )
 	}
 	if( course )
 	{
+		if( -1 == stat( "./output/course", &statFb ) )
+		{
+			if( -1 == mkdir( "./output/course", 0640 ) )
+				return GI_ERR_OUTCOURSE;
+		}
 		mCourseBackg.backgroundColor( mTransp );
 		mCourseBackg.read( "images/course_backg.svg" );
 		mCourseBackg.resize( mSize );
@@ -58,7 +76,7 @@ bool GpxImage::init( bool speed, bool course )
 		mCourseArrow.resize( mSize );
 	}
 	
-	return true;
+	return GI_ERR_SUCCESS;
 }
 
 
@@ -119,7 +137,7 @@ void GpxImage::setRaw()
 
 
 
-bool GpxImage::layer( char layerDef[] )
+GI_ERR GpxImage::layer( char layerDef[] )
 {
 	int layerCount = strlen( layerDef );
 	int curLayer = 0;
@@ -132,7 +150,7 @@ bool GpxImage::layer( char layerDef[] )
 			case 'g': mT = *mpG; break;
 			case 'a': mT = *mpA; break;
 			default:
-				return false;
+				return GI_ERR_LAYER;
 		}
 		if( layerDef[curLayer+1]==49 ) // int(49)=char(1)->"true"  48=0"false"
 		{
@@ -150,32 +168,32 @@ bool GpxImage::layer( char layerDef[] )
 		curLayer+=2;
 	}
 	
-	return true;
+	return GI_ERR_SUCCESS;
 }
 
 
 
 
-bool GpxImage::setFontTTF( const char fontFile[] )
+GI_ERR GpxImage::setFontTTF( const char fontFile[] )
 {
 	struct stat fb;
 	if( stat( fontFile, &fb ) != 0 )
-		return false;
+		return GI_ERR_FONT;
 	
 	strcpy( mFont, "@" );
 	strcat( mFont, fontFile );
 	
-	return true;
+	return GI_ERR_SUCCESS;
 }
 
 
 
 
-bool GpxImage::setFontColor( const char fontColor[] )
+GI_ERR GpxImage::setFontColor( const char fontColor[] )
 {
 	strcpy( mFontColor, fontColor );
 	
-	return true;
+	return GI_ERR_SUCCESS;
 }
 
 
@@ -206,10 +224,10 @@ void GpxImage::crop( char cropDef[] )
 
 
 
-bool GpxImage::save( char filename[] )
+GI_ERR GpxImage::save( char filename[] )
 {
 	mI.write( filename );
-	return true;
+	return GI_ERR_SUCCESS;
 }
 
 
